@@ -9,7 +9,7 @@ trigger:
 # Stage build
 stages:
 - stage: 'Build'
-  displayName: 'Build the web application'
+  displayName: 'Build the Azure function'
   jobs: 
   - job: 'Build'
     displayName: 'Build job'
@@ -47,7 +47,7 @@ stages:
 
 # Stage deploy
 - stage: 'Deploy'
-  displayName: 'Deploy the web application'
+  displayName: 'Deploy the azure function'
   dependsOn: Build
   jobs:
   - deployment: Deploy
