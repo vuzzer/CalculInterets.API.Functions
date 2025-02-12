@@ -5,6 +5,8 @@
 
 trigger:
 - none
+variables:
+  buildConfiguration: 'Release'
 
 # Stage build
 stages:
@@ -15,10 +17,6 @@ stages:
     displayName: 'Build job'
     pool:
       vmImage: 'ubuntu-20.04'
-    
-    variables:
-      buildConfiguration: 'Release'
-
     steps:
     - task: DotNetCoreCLI@2
       displayName: 'Restore project dependencies'
@@ -32,7 +30,6 @@ stages:
         command: 'build'
         arguments: '--no-restore --configuration $(buildConfiguration)'
         projects: '**/*.csproj'
-
     - task: DotNetCoreCLI@2
       displayName: 'Publish the project - $(buildConfiguration)'
       inputs:
@@ -41,7 +38,6 @@ stages:
         publishWebProjects: false
         arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
         zipAfterPublish: true
-
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: drop
 
@@ -66,6 +62,6 @@ stages:
               azureSubscription: 'sc-azure'
               appType: functionAppLinux
               appName: 'CalculInterets'
-              package: '$(Pipeline.Workspace)/drop/Release/CalculInterets.API.Functions.zip'
+              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/CalculInterets.API.Functions.zip'
               runtimeStack: DOTNET-ISOLATED|8.0
               startUpCommand: 'func azure functionapp publish $(functionAppName) --no-bundler'
