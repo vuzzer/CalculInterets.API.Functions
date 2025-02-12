@@ -66,6 +66,6 @@ stages:
               azureSubscription: 'sc-azure'
               appType: functionAppLinux
               appName: 'CalculInterets'
-              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/CalculInterets.API.Functions.zip'
+              package: '$(Pipeline.Workspace)/drop/Release/CalculInterets.API.Functions.zip'
               runtimeStack: DOTNET-ISOLATED|8.0
               startUpCommand: 'func azure functionapp publish $(functionAppName) --no-bundler'
